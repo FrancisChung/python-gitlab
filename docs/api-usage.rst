@@ -265,8 +265,17 @@ The generator exposes extra listing information as received from the server:
 * ``prev_page``: if ``None`` the current page is the first one
 * ``next_page``: if ``None`` the current page is the last one
 * ``per_page``: number of items per page
-* ``total_pages``: total number of pages available
-* ``total``: total number of items in the list
+* ``total_pages``: total number of pages available. This may be a ``None`` value.
+* ``total``: total number of items in the list. This may be a ``None`` value.
+
+.. note::
+
+   ``total_pages`` and ``total`` may have a value of ``None``. For performance
+   reasons, if a query returns more than 10,000 records, GitLab doesn’t return
+   any value for ``total_pages`` or ``total``.
+
+   For more information see:
+   https://docs.gitlab.com/ee/user/gitlab_com/index.html#pagination-response-headers
 
 Sudo
 ====

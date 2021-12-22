@@ -966,17 +966,23 @@ class GitlabList(object):
         return int(self._per_page)
 
     @property
-    def total_pages(self) -> int:
+    def total_pages(self) -> Optional[int]:
         """The total number of pages."""
-        if TYPE_CHECKING:
-            assert self._total_pages is not None
+        if self._total_pages is None:
+            # NOTE(jlvillal): When a query returns more than 10,000 items, GitLab
+            # doesn't return the header for this value. So we return None.
+            # https://docs.gitlab.com/ee/user/gitlab_com/index.html#pagination-response-headers
+            return None
         return int(self._total_pages)
 
     @property
-    def total(self) -> int:
+    def total(self) -> Optional[int]:
         """The total number of items."""
-        if TYPE_CHECKING:
-            assert self._total is not None
+        if self._total is None:
+            # NOTE(jlvillal): When a query returns more than 10,000 items, GitLab
+            # doesn't return the header for this value. So we return None.
+            # https://docs.gitlab.com/ee/user/gitlab_com/index.html#pagination-response-headers
+            return None
         return int(self._total)
 
     def __iter__(self) -> "GitlabList":
